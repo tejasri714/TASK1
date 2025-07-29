@@ -1,0 +1,195 @@
+body {
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+    background-color: #ffffff;
+}
+
+/* ✅ Navbar */
+.navbar {
+    background-color: #6A0DAD;
+    padding: 20px 40px;
+    border-bottom: 1px solid #B57EDC;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.navbar-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.logo {
+    font-size: 2rem;
+    color: #ffffff;
+    font-weight: 700;
+}
+
+.nav-links {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    margin-left: 100px;
+}
+
+.nav-links li a {
+    text-decoration: none;
+    color: #ffffff;
+    font-size: 1rem;
+    font-weight: 500;
+    transition: 0.3s;
+}
+
+.nav-links li a:hover {
+    color: #B57EDC;
+}
+
+.search-box {
+    padding: 8px 16px;
+    border: 1px solid #ccc;
+    border-radius: 20px;
+    outline: none;
+    font-size: 1rem;
+}
+
+.cart {
+    position: relative;
+    font-size: 1.3rem;
+    color: #ffffff;
+    cursor: pointer;
+}
+
+.cart-count {
+    background-color: #8A2BE2;
+    color: #fff;
+    font-size: 0.7rem;
+    padding: 3px 6px;
+    border-radius: 50%;
+    position: absolute;
+    top: -8px;
+    right: -12px;
+}
+
+.login-btn {
+    background-color: #B57EDC;
+    color: white;
+    padding: 8px 20px;
+    border: none;
+    border-radius: 20px;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.login-btn:hover {
+    background-color: #9C4DCC;
+}
+
+.menu-toggle {
+    font-size: 2rem;
+    cursor: pointer;
+    color: #ffffff;
+    display: none;
+}
+
+.mobile-menu {
+    display: none;
+    flex-direction: column;
+    list-style: none;
+    background-color: #ffffff;
+    padding: 10px;
+    gap: 10px;
+    margin: 0;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.mobile-menu li {
+    padding: 5px 0;
+}
+
+.mobile-menu a {
+    text-decoration: none;
+    color: #6A0DAD;
+    font-weight: 500;
+}
+
+.mobile-menu.show {
+    display: flex;
+}
+
+@media (max-width: 768px) {
+    .nav-links {
+        display: none;
+    }
+    .menu-toggle {
+        display: block;
+    }
+}
+
+/* ✅ Main Banner Styling */
+.main-banner-container {
+    padding: 40px 80px;
+}
+
+.main-banner {
+    width: 100%;
+    height: auto;
+    max-height: 450px;
+    object-fit: cover;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+/* ✅ Categories Section */
+.categories {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 30px;
+    padding: 40px 80px;
+    background-color: #fafafa;
+}
+
+.category {
+    text-align: center;
+}
+
+.category img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+    border-radius: 10px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+.category-name {
+    margin-top: 12px;
+    font-weight: 600;
+    font-size: 1rem;
+    color: #444;
+}
+/* ✅ Categories Heading */
+.categories-heading {
+    text-align: center;
+    font-size: 2rem;
+    font-weight: 600;
+    margin-top: 40px;
+    margin-bottom: 20px;
+    color: #6A0DAD;
+}
+
+/* Optional: Category hover effect */
+.category:hover {
+    transform: scale(1.02);
+    transition: transform 0.3s ease;
+}
+
+/* Optional: Remove link underline for clickable category */
+.category a {
+    text-decoration: none;
+    color: inherit;
+}

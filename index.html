@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Framer Main</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #fffaf7;
+    }
+    .navbar {
+      background-color: #ffe1e8;
+      padding: 15px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .nav-links {
+      list-style: none;
+      display: flex;
+      gap: 20px;
+      align-items: center;
+    }
+    .nav-links li {
+      font-size: 16px;
+    }
+    .search-box {
+      padding: 6px 10px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+    }
+    .cart {
+      position: relative;
+      cursor: pointer;
+    }
+    .cart-count {
+      position: absolute;
+      top: -8px;
+      right: -10px;
+      background-color: #ff5a5f;
+      color: white;
+      border-radius: 50%;
+      padding: 2px 6px;
+      font-size: 12px;
+    }
+    .main-banner {
+      width: 100%;
+      max-height: 300px;
+      object-fit: cover;
+    }
+    .category-heading {
+      font-size: 24px;
+      padding: 20px;
+      margin-bottom: -10px;
+    }
+    .categories {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+      padding: 20px;
+      justify-content: center;
+    }
+    .category-item {
+      text-align: center;
+      width: 120px;
+    }
+    .category-item img {
+      width: 100%;
+      border-radius: 12px;
+    }
+    .cart-modal {
+      position: fixed;
+      right: 0;
+      top: 0;
+      height: 100vh;
+      width: 320px;
+      background: white;
+      box-shadow: -2px 0 10px rgba(0, 0, 0, 0.2);
+      padding: 20px;
+      overflow-y: auto;
+      display: none;
+      flex-direction: column;
+    }
+    .cart-item {
+      border-bottom: 1px solid #eee;
+      padding: 10px 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .cart-item-controls {
+      display: flex;
+      gap: 5px;
+      align-items: center;
+    }
+    .cart-item button {
+      background: none;
+      border: none;
+      color: red;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    .qty-btn {
+      background-color: #ddd;
+      border: none;
+      padding: 4px 8px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .subtotal {
+      font-weight: bold;
+      margin-top: 10px;
+    }
+    .checkout-btn {
+      background-color: #ff5a5f;
+      color: white;
+      border: none;
+      padding: 10px;
+      margin-top: 15px;
+      border-radius: 8px;
+      cursor: pointer;
+      width: 100%;
+    }
+    .auth-buttons {
+      display: flex;
+      gap: 10px;
+    }
+    .auth-buttons a {
+      text-decoration: none;
+      background-color: #ff5a5f;
+      color: white;
+      padding: 6px 10px;
+      border-radius: 6px;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ✅ Navbar -->
+  <nav class="navbar">
+    <div class="logo">Framer</div>
+    <ul class="nav-links">
+      <li><a href="#">Home</a></li>
+      <li><a href="#">About</a></li>
+      <li><a href="#">Contact</a></li>
+      <li><input type="text" placeholder="Search products" class="search-box" /></li>
+      <li class="cart" onclick="toggleCart()">🛒<span class="cart-count">0</span></li>
+      <li class="auth-buttons">
+        <a href="login.html">Login</a>
+        <a href="signup.html">Sign Up</a>
+        <a href="forgot-password.html">Forgot Password</a>
+      </li>
+    </ul>
+  </nav>
+
+  <!-- ✅ Main Banner -->
+  <img src="mainbanner.png" alt="Main Banner" class="main-banner" />
+
+  <!-- ✅ Categories Heading -->
+  <h2 class="category-heading">Categories</h2>
+
+  <!-- ✅ Categories Section -->
+  <div class="categories">
+    <div class="category-item">
+      <a href="tees.html"><img src="mainbanner.png" alt="Tees" /></a>
+      <p>Tees</p>
+    </div>
+    <div class="category-item">
+      <img src="mainbanner.png" alt="Jackets" />
+      <p>Jackets</p>
+    </div>
+    <div class="category-item">
+      <img src="mainbanner.png" alt="Caps" />
+      <p>Caps</p>
+    </div>
+    <div class="category-item">
+      <img src="mainbanner.png" alt="Accessories" />
+      <p>Accessories</p>
+    </div>
+    <div class="category-item">
+      <img src="mainbanner.png" alt="Limited" />
+      <p>Limited</p>
+    </div>
+  </div>
+
+  <!-- ✅ Cart Modal -->
+  <div id="cartModal" class="cart-modal"></div>
+
+  <script>
+    const cartModal = document.getElementById("cartModal");
+    let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+    const productPrices = {
+      "Classic Tee": 499,
+      "White Tee": 599,
+      "Graphic Tee": 699,
+      "Other Product": 399
+    };
+
+    function toggleCart() {
+      cartModal.style.display = cartModal.style.display === "flex" ? "none" : "flex";
+      renderCart();
+    }
+
+    function addToCart(productName) {
+      const item = cart.find(p => p.name === productName);
+      if (item) {
+        item.qty += 1;
+      } else {
+        cart.push({ name: productName, qty: 1 });
+      }
+      localStorage.setItem("cart", JSON.stringify(cart));
+      updateCartCount();
+    }
+
+    function updateCartCount() {
+      const totalCount = cart.reduce((acc, item) => acc + item.qty, 0);
+      document.querySelector(".cart-count").innerText = totalCount;
+    }
+
+    function removeFromCart(name) {
+      cart = cart.filter(item => item.name !== name);
+      localStorage.setItem("cart", JSON.stringify(cart));
+      renderCart();
+      updateCartCount();
+    }
+
+    function changeQty(name, delta) {
+      const item = cart.find(p => p.name === name);
+      if (!item) return;
+      item.qty += delta;
+      if (item.qty <= 0) {
+        cart = cart.filter(p => p.name !== name);
+      }
+      localStorage.setItem("cart", JSON.stringify(cart));
+      renderCart();
+      updateCartCount();
+    }
+
+    function renderCart() {
+      cartModal.innerHTML = "<h3>Your Cart</h3>";
+      let total = 0;
+
+      cart.forEach(item => {
+        const price = productPrices[item.name] || 499;
+        const itemTotal = item.qty * price;
+        total += itemTotal;
+
+        cartModal.innerHTML += `
+          <div class="cart-item">
+            <div>
+              <strong>${item.name}</strong><br/>
+              ₹${price} × 
+              <div class="cart-item-controls">
+                <button class="qty-btn" onclick="changeQty('${item.name}', -1)">−</button>
+                ${item.qty}
+                <button class="qty-btn" onclick="changeQty('${item.name}', 1)">+</button>
+              </div>
+            </div>
+            <button onclick="removeFromCart('${item.name}')">&times;</button>
+          </div>
+        `;
+      });
+
+      cartModal.innerHTML += `
+        <div class="subtotal">Subtotal: ₹${total}</div>
+        <button class="checkout-btn">Checkout</button>
+      `;
+    }
+
+    updateCartCount();
+  </script>
+</body>
+</html>
